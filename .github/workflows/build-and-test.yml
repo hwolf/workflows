@@ -28,6 +28,9 @@ jobs:
     outputs:
       image-name: ${{ steps.build-image.outputs.image-name }}
     steps:
+      - run: |
+          echo "ref=${{ inputs.ref}}"
+
       - name: 'Setup Maven'
         uses: s4u/setup-maven-action@v1.18.0
         with:
