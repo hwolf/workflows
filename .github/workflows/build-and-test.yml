@@ -38,15 +38,18 @@ jobs:
         #env:
         # ...
 
-      #- name: 'Analyse with SonarCloud'
-      #  if: github.actor != 'dependabot[bot]'
-      #  run: |
+      - name: 'Analyse with SonarCloud'
+        if: github.actor != 'dependabot[bot]'
+        run: |
+          echo "TODO ..."
       #    mvn -e -B -no-transfer-progress sonar:sonar -Drevision="${{ inputs.revision }}"
       #    env:
       #     ...
 
-      #- name: 'Check Quality Gate'
-      #  if: github.actor != 'dependabot[bot]'
+      - name: 'Check Quality Gate'
+        if: github.actor != 'dependabot[bot]'
+        run: |
+          echo "TODO ..."
       #  uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
       #  with:
       #    scanMetadataReportFile: 'target/sonar/report-task.txt'
