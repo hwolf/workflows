@@ -31,4 +31,4 @@ jobs:
       - name: 'Deploy ${{ inputs.image-name }} to ${{ inputs.environment }}'
         run: |
           echo "TODO..."
-          
+          echo "${{ toJson(vars) }}"
