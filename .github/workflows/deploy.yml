@@ -18,18 +18,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
-      - run: |
-          echo "ref=${{ inputs.ref}}"
+
       - name: 'Checkout'
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           ref: ${{ inputs.ref }}
-
-      - run: |
-          echo "${{ toJson(github) }}"
-
-      - run: |
-          git branch
 
       - name: 'Setup Terraform'
         uses: hashicorp/setup-terraform@v3
