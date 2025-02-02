@@ -10,7 +10,9 @@ on:
         type: string
         required: true
         description: Revision
-
+    secrets:
+      SEC_1:
+      SEC_2:
 jobs:
   build:
     name: 'Build'
@@ -32,3 +34,6 @@ jobs:
     with:
       image-name: "${{ needs.build.outputs.image-name }}"
       environment: "${{ inputs.environment }}"
+    secrets:
+      SEC_1: ${{ secrets.SEC_1 }}
+      SEC_2: ${{ secrets.SEC_2 }}
