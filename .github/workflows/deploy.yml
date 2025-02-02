@@ -28,9 +28,11 @@ jobs:
           ref: ${{ inputs.ref }}
       - if: inputs.pr-number
         run: |
-          git checkout pull/${{ inputs.pr-number }}/head:${{ inputs.ref }} 
+          git fetch origin pull/${{ inputs.pr-number }}/head:${{ inputs.ref }} 
+          git fetch origin pull/ID/head:BRANCH_NAME
+          git switch ${{ inputs.ref }}
 
-      - name: 'Setup Terraform'
+      - name: 'Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.8.2
