@@ -27,9 +27,10 @@ jobs:
       - name: 'Deploy ${{ inputs.image-name }} to ${{ inputs.environment }}'
         run: |
           echo "TODO ..."
-          echo "$ENV_1"
+          echo "XX $ENV_1"
+          echo "XX ${{ toJson(vars) }}"
+          env
 
       - name: 'Publish SBOM'
         run: |
           echo "TODO ..."
-          echo "XX $ENV_1"
