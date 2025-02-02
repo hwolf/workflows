@@ -8,9 +8,6 @@ on:
       image-name:
         type: string
         required: true
-    secrets:
-      SEC_1:
-      SEC_2:
 
 jobs:
   deploy:

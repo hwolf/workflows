@@ -10,9 +10,7 @@ on:
         type: string
         required: true
         description: Revision
-    secrets:
-      SEC_1:
-      SEC_2:
+
 jobs:
   build:
     name: 'Build'
@@ -20,6 +18,7 @@ jobs:
     with:
       revision: "${{ inputs.revision }}"
       publish-image: ${{ inputs.environment != 'none' }}
+    secrets: inherit
 
   terraform:
     name: 'Validate Terraform'
@@ -34,6 +33,4 @@ jobs:
     with:
       image-name: "${{ needs.build.outputs.image-name }}"
       environment: "${{ inputs.environment }}"
-    secrets:
-      SEC_1: ${{ secrets.SEC_1 }}
-      SEC_2: ${{ secrets.SEC_2 }}
+    secrets: inherit
