@@ -28,7 +28,7 @@ jobs:
           ref: ${{ inputs.ref }}
       - if: inputs.pr-number
         run: |
-          git fetch origin pull/${{ inputs.pr-number }}/head:${{ inputs.ref }} 
+          git fetch -u origin pull/${{ inputs.pr-number }}/head:${{ inputs.ref }} 
           git switch ${{ inputs.ref }}
 
       - name: 'Setup Terraform'
