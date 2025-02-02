@@ -36,6 +36,12 @@ jobs:
           java-distribution: 'liberica'
           #settings-repositories: '...'
 
+      - run: |
+          echo "${{ toJson(github) }}"
+
+      - run: |
+          git branch
+
       - name: 'Build & Test'
         run: |
           mvn -e -B -no-transfer-progress clean jacoco:prepare-agent package jacoco:report -Drevision="${{ inputs.revision }}"

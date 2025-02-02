@@ -23,6 +23,12 @@ jobs:
         with:
           ref: ${{ inputs.ref }}
 
+      - run: |
+          echo "${{ toJson(github) }}"
+
+      - run: |
+          git branch
+
       - name: 'Setup Terraform'
         uses: hashicorp/setup-terraform@v3
         with:
