@@ -22,11 +22,11 @@ jobs:
     outputs:
       image-name: ${{ steps.build-image.outputs.image-name }}
     steps:
-      - name: 'Calculate Revision'
+      - name: 'Calculate Revision (main)'
         if: github.ref == 'refs/heads/main'
         run: |
           echo "revision=$(date +%Y%m%d)-${{ github.run_number }}" >> $GITHUB_ENV
-      - name: 'Calculate Revision'
+      - name: 'Calculate Revision (branch)'
         if: github.ref != 'refs/heads/main'
         run: |
           echo "revision=$(date +%Y%m%d)-${{ github.sha }}-${{ github.run_number }}" >> $GITHUB_ENV
