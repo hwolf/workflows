@@ -32,7 +32,6 @@ jobs:
           echo "ENV_1=${{ vars.ENV_1 }}"
           echo "SEC_1=${{ secrets.SEC_1 }}"
           echo "SEC_2=${{ secrets.SEC_2 }}"
-          exit 1
 
       - name: 'Publish SBOM'
         run: |
