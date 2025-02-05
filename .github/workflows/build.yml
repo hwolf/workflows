@@ -6,17 +6,20 @@ on:
         type: string
         required: true
         description: Deploy to environment?
-      revision:
+#      revision:
+#        type: string
+#        required: true
+#        description: Revision
+      service-folder:
         type: string
-        required: true
-        description: Revision
+        default: '.'
 
 jobs:
   build:
     name: 'Build'
     uses: hwolf/workflows/.github/workflows/build-and-test.yml@main
     with:
-      revision: "${{ inputs.revision }}"
+#      revision: "${{ inputs.revision }}"
       publish-image: ${{ inputs.environment != 'none' }}
     secrets: inherit
 

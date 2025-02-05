@@ -9,6 +9,8 @@ on:
         type: string
         required: true
 
+concurrency: ${{ inputs.environment }}
+
 jobs:
   deploy:
     name: 'Deploy'

@@ -2,18 +2,15 @@ name: 'Build and Test'
 on:
   workflow_call:
     inputs:
-      revision:
-        type: string
-        required: true
-      service-folder:
-        type: string
-        default: '.'
+#      revision:
+#        type: string
+#        required: true
       publish-image:
         type: boolean
         default: false
-      environment:
+      service-folder:
         type: string
-        default: dev
+        default: '.'
     outputs:
       image-name:
         value: ${{ jobs.build.outputs.image-name }}
@@ -25,6 +22,15 @@ jobs:
     outputs:
       image-name: ${{ steps.build-image.outputs.image-name }}
     steps:
+      - name: 'Calculate Revision'
+        if: github.ref == 'refs/heads/master'
+        run: |
+          echo "revision=$(date +%Y%m%d)-${{ github.run_number }}" >> $GITHUB_ENV
+      - name: 'Calculate Revision'
+        if: github.ref != 'refs/heads/master'
+        run: |
+          echo "revision=$(date +%Y%m%d)-${{ github.sha }}-${{ github.run_number }}" >> $GITHUB_ENV
+
       - name: 'Setup Maven'
         uses: s4u/setup-maven-action@v1.18.0
         with:
@@ -34,7 +40,7 @@ jobs:
 
       - name: 'Build & Test'
         run: |
-          mvn -e -B -no-transfer-progress clean jacoco:prepare-agent package jacoco:report -Drevision="${{ inputs.revision }}"
+          mvn -e -B -no-transfer-progress clean jacoco:prepare-agent package jacoco:report -Drevision="$revision"
         #env:
         # ...
 
@@ -42,7 +48,7 @@ jobs:
         if: github.actor != 'dependabot[bot]'
         run: |
           echo "TODO ..."
-      #    mvn -e -B -no-transfer-progress sonar:sonar -Drevision="${{ inputs.revision }}"
+      #    mvn -e -B -no-transfer-progress sonar:sonar -Drevision="$revision"
       #    env:
       #     ...
 
@@ -62,10 +68,10 @@ jobs:
         run: |
           groupId="$(mvn help:evaluate -Dexpression=project.groupId -q -DforceStdout)"
           artifactId="$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)"
-          imageName="xxxx.azurecr.io/${groupId/.//}/$artifactId:${{ inputs.revision }}"
+          imageName="xxxx.azurecr.io/${groupId/.//}/$artifactId:$revision"
           echo "image-name=$imageName" >> $GITHUB_OUTPUT
 
-          mvn -e -B -no-transfer-progress spring-boot:build-image-no-fork -Drevision="${{ inputs.revision }}" \
+          mvn -e -B -no-transfer-progress spring-boot:build-image-no-fork -Drevision="$revision" \
               -Ddocker.imageName="$imageName"
 
       - name: 'Login ...'
