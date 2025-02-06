@@ -33,23 +33,3 @@ jobs:
       image-name: "${{ needs.build.outputs.image-name }}"
       environment: "${{ inputs.environment }}"
     secrets: inherit
-
-  create-release-candidate:
-    name: 'Create Release Candidate'
-    runs-on: ubuntu-latest
-    if: inputs.environment == 'qa'
-    needs:
-      - build
-      - deploy
-    steps:
-      - run: |
-          imageName=${{ needs.build.outputs.image-name }}
-          echo "tag=${imageName#*:}"
-          echo "tag=${imageName#*:}" >> $GITHUB_ENV
-      - uses: ncipollo/release-action@v1
-        with:
-          tag: "rc-${{ env.tag }}"
-          name: "${{ env.tag }}"
-          artifacts: ""
-          draft: false
-          prerelease: true
