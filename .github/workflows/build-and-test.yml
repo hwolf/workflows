@@ -41,8 +41,10 @@ jobs:
         #env:
         # ...
 
-      - run: echo "${{ toJson(secrets) }}"
-      - run: echo "${{ secrets.SONAR_TOKEN }}"
+      - run: |
+          xxx="${{ secrets.SONAR_TOKEN }}"
+          yyy=$xxx
+          echo $yyy
 
       - name: 'Analyse with SonarCloud'
         if: github.actor != 'dependabot[bot]'
