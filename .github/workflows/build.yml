@@ -11,6 +11,13 @@ on:
         default: '.'
 
 jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "${{ toJson(secrets) }}"
+      - run: echo "${{ secrets.SONAR_TOKEN }}"
+
   build:
     name: 'Build'
     uses: hwolf/workflows/.github/workflows/build-and-test.yml@main
