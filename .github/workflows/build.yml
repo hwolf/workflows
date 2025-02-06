@@ -50,7 +50,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: rc-$tag
-          release_name: Release $tag
+          tag_name: "rc-$tag"
+          release_name: "Release $tag"
           draft: false
           prerelease: true
