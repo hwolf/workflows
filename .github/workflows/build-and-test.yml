@@ -8,6 +8,8 @@ on:
       service-folder:
         type: string
         default: '.'
+    secrets:
+      SONAR_TOKEN:
     outputs:
       image-name:
         value: ${{ jobs.build.outputs.image-name }}
