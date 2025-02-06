@@ -9,6 +9,8 @@ on:
       service-folder:
         type: string
         default: '.'
+    secrets:
+      SONAR_TOKEN:
 
 jobs:
   build:
