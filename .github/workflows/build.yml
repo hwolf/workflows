@@ -49,6 +49,7 @@ jobs:
       - uses: ncipollo/release-action@v1
         with:
           tag: "rc-${{ env.tag }}"
-          title: "Release ${{ env.tag }}"
+          name: "${{ env.tag }}"
+          artifacts: ""
           draft: false
           prerelease: true
