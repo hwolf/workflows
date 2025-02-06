@@ -44,10 +44,9 @@ jobs:
       - name: 'Analyse with SonarCloud'
         if: github.actor != 'dependabot[bot]'
         run: |
-          echo "TODO ..."
-      #    mvn -e -B -no-transfer-progress sonar:sonar -Drevision="$revision"
-      #    env:
-      #     ...
+          mvn -e -B -no-transfer-progress sonar:sonar -Drevision="$revision"
+          env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: 'Check Quality Gate'
         if: github.actor != 'dependabot[bot]'
