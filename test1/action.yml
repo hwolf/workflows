@@ -1,0 +1,14 @@
+name: 'Test 1'
+
+inputs:
+  inp1:
+    description: '...'
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Test 1A
+      shell: bash
+      run: |
+        echo "Inp1=${{inputs.inp1}}"
