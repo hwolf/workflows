@@ -12,8 +12,8 @@ inputs:
 
 outputs:
   image-name:
-  value: ${{ steps.build.outputs.image-name }}
-  #value: ${{ steps.random-number-generator.outputs.random-number }}
+    value: ${{ steps.build.outputs.image-name }}
+    #value: ${{ steps.random-number-generator.outputs.random-number }}
 
 runs:
   using: 'composite'
