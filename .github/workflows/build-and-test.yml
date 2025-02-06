@@ -41,18 +41,12 @@ jobs:
         #env:
         # ...
 
-      - run: |
-          xxx="${{ secrets.SONAR_TOKEN }}"
-          yyy="$xxx"
-          echo X "${xxx:x}"
-          echo Y "${yyy:x}"
-
       - name: 'Analyse with SonarCloud'
         if: github.actor != 'dependabot[bot]'
         run: |
           mvn -e -B -no-transfer-progress sonar:sonar -Drevision="$revision"
           env:
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
             SONAR_HOST_URL: "https://sonarcloud.io"
 
       - name: 'Check Quality Gate'
