@@ -46,11 +46,9 @@ jobs:
           imageName=${{ needs.build.outputs.image-name }}
           echo "tag=${imageName#*:}"
           echo "tag=${imageName#*:}" >> $GITHUB_ENV
-      - uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: ncipollo/release-action@v1
         with:
-          tag_name: "rc-${{ env.tag }}"
-          release_name: "Release ${{ env.tag }}"
+          tag: "rc-${{ env.tag }}"
+          title: "Release ${{ env.tag }}"
           draft: false
           prerelease: true
