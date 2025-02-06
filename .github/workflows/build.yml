@@ -44,12 +44,13 @@ jobs:
     steps:
       - run: |
           imageName=${{ needs.build.outputs.image-name }}
-          echo "TAG=${imageName#*:}" >> $GITHUB_ENV
+          echo "tag=${imageName#*:}"
+          echo "tag=${imageName#*:}" >> $GITHUB_ENV
       - uses: actions/create-release@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: rc-$TAG
-          release_name: Release $TAG
+          tag_name: rc-$tag
+          release_name: Release $tag
           draft: false
           prerelease: true
