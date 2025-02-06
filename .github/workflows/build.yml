@@ -16,7 +16,8 @@ jobs:
     uses: hwolf/workflows/.github/workflows/build-and-test.yml@main
     with:
       publish-image: ${{ inputs.environment != 'none' }}
-    secrets: inherit
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   terraform:
     name: 'Validate Terraform'
