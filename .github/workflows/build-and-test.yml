@@ -50,7 +50,7 @@ jobs:
           mvn -e -B -X -no-transfer-progress sonar:sonar -Drevision="$revision"
           env:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            SONAR_HOST_URL: "https://sonarcloud.io"
 
       - name: 'Check Quality Gate'
         if: github.actor != 'dependabot[bot]'
