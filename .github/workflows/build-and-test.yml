@@ -8,8 +8,6 @@ on:
       service-folder:
         type: string
         default: '.'
-      sonar-token:
-        type: string
     outputs:
       image-name:
         value: ${{ jobs.build.outputs.image-name }}
@@ -48,7 +46,7 @@ jobs:
         run: |
           mvn -e -B -no-transfer-progress sonar:sonar -Drevision="$revision"
           env:
-            SONAR_TOKEN: "${{ inputs.sonar-token }}"
+            SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
             SONAR_HOST_URL: "https://sonarcloud.io"
 
       - name: 'Check Quality Gate'
