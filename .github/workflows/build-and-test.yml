@@ -28,12 +28,16 @@ jobs:
         run: |
           echo "revision=$(date +%Y%m%d)-${{ github.sha }}-${{ github.run_number }}" >> $GITHUB_ENV
 
+      - uses: xt0rted/pull-request-comment-branch@v1
+        id: pr-id
+      - run: echo "XXX ${{ steps.pr-id.outputs.head_ref }}"
       - name: 'Setup Maven'
         uses: s4u/setup-maven-action@v1.18.0
         with:
           java-version: 21
           java-distribution: 'liberica'
           #settings-repositories: '...'
+          #checkout-ref: ${{ steps.pr-id.outputs.head_ref }}
 
       - name: 'Build & Test'
         run: |
