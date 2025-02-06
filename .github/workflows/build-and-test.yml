@@ -43,8 +43,9 @@ jobs:
 
       - run: |
           xxx="${{ secrets.SONAR_TOKEN }}"
-          yyy=$xxx
-          echo $yyy
+          yyy="$xxx"
+          echo X "${xxx:x}"
+          echo Y "${yyy:x}"
 
       - name: 'Analyse with SonarCloud'
         if: github.actor != 'dependabot[bot]'
