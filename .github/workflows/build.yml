@@ -43,8 +43,8 @@ jobs:
       - deploy
     steps:
       - uses: actions/create-release@latest
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: rc-${{ needs.build.outputs.image-name }}
           release_name: Release ${{ needs.build.outputs.image-name }}
