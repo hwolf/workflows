@@ -44,7 +44,7 @@ jobs:
           echo "tag=${imageName#*:}" >> $GITHUB_ENV
       - name: Tag
         if: inputs.environment == 'qa' || inputs.environment == 'prd'
-        uses: piszmog/create-tag@v1
+        uses: makethenetgo/actions-create-tag@v1
         with:
-          version: "${{ inputs.environment }}-${{ env.tag }}"
-          message: "Deployed ${{ env.tag }} on ${{ inputs.environment }} on $(date '+%Y-%m-%d %H:%M:%S')"
+          tag_name: "${{ inputs.environment }}-${{ env.tag }}"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
