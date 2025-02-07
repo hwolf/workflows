@@ -80,6 +80,6 @@ jobs:
       #  uses: advanced-security/maven-dependency-submission-action@v4
 
       - name: Revision
-        if: revision
+        id: revision
         run: |
           echo "revision=$revision" >> $GITHUB_OUTPUT
