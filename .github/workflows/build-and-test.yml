@@ -40,17 +40,11 @@ jobs:
       - name: 'Build & Test'
         run: |
           mvn -e -B -no-transfer-progress clean jacoco:prepare-agent package jacoco:report -Drevision="$revision"
-        #env:
-        # ...
-
-      - name: Dump
-        run: |
-          mvn -e -B -no-transfer-progress help:system
 
       - name: 'Analyse with SonarCloud'
         if: github.actor != 'dependabot[bot]'
         run: |
-          mvn -e -B -no-transfer-progress sonar:sonar -Drevision="$revision"
+          mvn -e -B -no-transfer-progress help:system sonar:sonar -Drevision="$revision"
           env:
             SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
             SONAR_HOST_URL: "https://sonarcloud.io"
