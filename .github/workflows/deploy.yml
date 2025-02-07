@@ -45,8 +45,8 @@ jobs:
       - deploy
     steps:
       - name: Timestamp
-      - id: ts
-      - run: echo "::set-output name=ts::$(date -u +'%Y-%m-%d %H:%M:%S')"
+        id: ts
+        run: echo "::set-output name=ts::$(date -u +'%Y-%m-%d %H:%M:%S')"
       - name: 'Create/update tag'
         uses: joutvhu/create-tag@v1
         with:
