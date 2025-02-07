@@ -10,11 +10,11 @@ on:
         required: true
 
 concurrency: ${{ inputs.environment }}
-environment: ${{ inputs.environment }}
 
 jobs:
   deploy:
     name: 'Deploy'
+    environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout'
