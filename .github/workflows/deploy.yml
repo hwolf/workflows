@@ -5,7 +5,7 @@ on:
       environment:
         type: string
         default: dev
-      image-name:
+      revision:
         type: string
         required: true
 
@@ -26,7 +26,7 @@ jobs:
           terraform_version: 1.8.2
           terraform_wrapper: false
 
-      - name: 'Deploy ${{ inputs.image-name }} to ${{ inputs.environment }}'
+      - name: 'Deploy ${{ inputs.revision }} to ${{ inputs.environment }}'
         run: |
           echo "TODO ..."
           echo "ENV_1=${{ vars.ENV_1 }}"
@@ -37,14 +37,9 @@ jobs:
         run: |
           echo "TODO ..."
 
-      - name: Tag
-        if: inputs.environment == 'qa' || inputs.environment == 'prd'
-        run: |
-          imageName=${{ inputs.image-name }}
-          echo "tag=${imageName#*:}" >> $GITHUB_ENV
-      - name: Tag
+      - name: 'Create tag'
         if: inputs.environment == 'qa' || inputs.environment == 'prd'
         uses: makethenetgo/actions-create-tag@v1
         with:
-          tag_name: "${{ inputs.environment }}-deployed-${{ env.tag }}"
+          tag_name: "${{ inputs.environment }}-deployed-${{ inputs.revision }}"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

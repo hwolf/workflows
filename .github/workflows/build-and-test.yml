@@ -11,21 +11,21 @@ on:
     secrets:
       SONAR_TOKEN:
     outputs:
-      image-name:
-        value: ${{ jobs.build.outputs.image-name }}
+      revision:
+        value: ${{ jobs.build.outputs.revision }}
 
 jobs:
   build:
     name: 'Build and Test'
     runs-on: ubuntu-latest
     outputs:
-      image-name: ${{ steps.build-image.outputs.image-name }}
+      revision: ${{ steps.build-image.outputs.revision }}
     steps:
-      - name: 'Calculate Revision (main)'
+      - name: 'Calculate revision (main)'
         if: github.ref == 'refs/heads/main'
         run: |
           echo "revision=$(date +%Y%m%d)-${{ github.run_number }}" >> $GITHUB_ENV
-      - name: 'Calculate Revision (branch)'
+      - name: 'Calculate revision (branch)'
         if: github.ref != 'refs/heads/main'
         run: |
           echo "revision=$(date +%Y%m%d)-${{ github.sha }}-${{ github.run_number }}" >> $GITHUB_ENV
@@ -56,7 +56,6 @@ jobs:
           groupId="$(mvn help:evaluate -Dexpression=project.groupId -q -DforceStdout)"
           artifactId="$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)"
           imageName="xxxx.azurecr.io/${groupId/.//}/$artifactId:$revision"
-          echo "image-name=$imageName" >> $GITHUB_OUTPUT
 
           mvn -e -B -no-transfer-progress spring-boot:build-image-no-fork -Drevision="$revision" \
               -Ddocker.imageName="$imageName"
@@ -79,3 +78,7 @@ jobs:
 
       #- name: 'Update Dependency Graph'
       #  uses: advanced-security/maven-dependency-submission-action@v4
+
+      - name: Revision
+        run: |
+          echo "revision=$revision" >> $GITHUB_OUTPUT
