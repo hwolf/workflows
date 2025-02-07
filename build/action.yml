@@ -49,18 +49,19 @@ runs:
       if: github.actor != 'dependabot[bot]'
       shell: bash
       run: |
-        mvn -e -B -no-transfer-progress sonar:sonar -Drevision="$revision"
+        mvn -e -B -no-transfer-progress sonar:sonar -Drevision="$revision" \
+            -Dsonar.qualitygate.wait=true
       env:
         SONAR_TOKEN: "${{ inputs.sonar-token }}"
         SONAR_HOST_URL: "https://sonarcloud.io"
 
-    - name: 'Check Quality Gate'
-      if: github.actor != 'dependabot[bot]'
-      uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
-      with:
-        scanMetadataReportFile: 'target/sonar/report-task.txt'
-      env:
-        SONAR_TOKEN: "${{ inputs.sonar-token }}"
+    #- name: 'Check Quality Gate'
+    #  if: github.actor != 'dependabot[bot]'
+    #  uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
+    #  with:
+    #    scanMetadataReportFile: 'target/sonar/report-task.txt'
+    #  env:
+    #    SONAR_TOKEN: "${{ inputs.sonar-token }}"
 
     - name: 'Build Image'
       id: 'build-image'
