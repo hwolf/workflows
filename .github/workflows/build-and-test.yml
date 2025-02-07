@@ -41,21 +41,17 @@ jobs:
         run: |
           mvn -e -B -no-transfer-progress clean jacoco:prepare-agent package jacoco:report -Drevision="$revision"
 
+      - name: XXXX
+        run: |
+          echo "${{ inputs.service-folder }}" | base64
+
       - name: 'Analyse with SonarCloud'
         if: github.actor != 'dependabot[bot]'
         run: |
-          mvn -e -B -no-transfer-progress help:system sonar:sonar -Drevision="$revision"
+          mvn -e -B -no-transfer-progress sonar:sonar -Drevision="$revision" -Dsonar.qualitygate.wait=true
           env:
             SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
             SONAR_HOST_URL: "https://sonarcloud.io"
-
-      - name: 'Check Quality Gate'
-        if: github.actor != 'dependabot[bot]'
-        uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
-        with:
-          scanMetadataReportFile: 'target/sonar/report-task.txt'
-        env:
-          SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
 
       - name: 'Build Image'
         id: 'build-image'

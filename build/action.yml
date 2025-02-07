@@ -13,7 +13,6 @@ inputs:
 outputs:
   image-name:
     value: ${{ steps.build.outputs.image-name }}
-    #value: ${{ steps.random-number-generator.outputs.random-number }}
 
 runs:
   using: 'composite'
@@ -54,14 +53,6 @@ runs:
       env:
         SONAR_TOKEN: "${{ inputs.sonar-token }}"
         SONAR_HOST_URL: "https://sonarcloud.io"
-
-    #- name: 'Check Quality Gate'
-    #  if: github.actor != 'dependabot[bot]'
-    #  uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
-    #  with:
-    #    scanMetadataReportFile: 'target/sonar/report-task.txt'
-    #  env:
-    #    SONAR_TOKEN: "${{ inputs.sonar-token }}"
 
     - name: 'Build Image'
       id: 'build-image'
