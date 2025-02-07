@@ -19,7 +19,7 @@ jobs:
     name: 'Build and Test'
     runs-on: ubuntu-latest
     outputs:
-      revision: ${{ steps.build-image.outputs.revision }}
+      revision: ${{ steps.revision.outputs.revision }}
     steps:
       - name: 'Calculate revision (main)'
         if: github.ref == 'refs/heads/main'
@@ -50,12 +50,12 @@ jobs:
           SONAR_HOST_URL: "https://sonarcloud.io"
 
       - name: 'Build Image'
-        id: 'build-image'
         working-directory: ${{ inputs.service-folder }}
         run: |
           groupId="$(mvn help:evaluate -Dexpression=project.groupId -q -DforceStdout)"
           artifactId="$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)"
           imageName="xxxx.azurecr.io/${groupId/.//}/$artifactId:$revision"
+          echo "imageName=$imageName" >> $GITHUB_ENV
 
           mvn -e -B -no-transfer-progress spring-boot:build-image-no-fork -Drevision="$revision" \
               -Ddocker.imageName="$imageName"
@@ -68,7 +68,7 @@ jobs:
       - name: 'Publish Image'
         if: inputs.publish-image
         run: |
-          echo "Publish image "
+          echo "Publish image $imageName"
 
       - name: 'Publish Test Results'
         if: failure()
@@ -80,5 +80,6 @@ jobs:
       #  uses: advanced-security/maven-dependency-submission-action@v4
 
       - name: Revision
+        if: revision
         run: |
           echo "revision=$revision" >> $GITHUB_OUTPUT
