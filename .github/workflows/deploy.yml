@@ -44,10 +44,16 @@ jobs:
     needs:
       - deploy
     steps:
-      - name: 'Create tag'
-        uses: makethenetgo/actions-create-tag@v1
+      - name: Timestamp
+      - id: ts
+      - run: echo "::set-output name=ts::$(date -u +'%Y-%m-%d %H:%M:%S')"
+      - name: 'Create/update tag'
+        uses: joutvhu/create-tag@v1
         with:
           tag_name: "${{ inputs.environment }}-deployed-${{ inputs.revision }}"
+          message: "Image ${{ inputs.revision }} deployed to ${{ inputs.environment }} at ${{ steps.ts.outputs.ts }}"
+          on_tag_exists: update
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   sbom:
@@ -68,5 +74,4 @@ jobs:
 
       - name: 'Upload SBOM'
         run: |
-          find . -name \*.json
-          find . -name \*.xml
+          cat ./target/bom.json
