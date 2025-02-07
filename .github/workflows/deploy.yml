@@ -56,9 +56,17 @@ jobs:
     needs:
       - deploy
     steps:
-      - name: 'Checkout'
-        uses: actions/checkout@v4
+      - name: 'Setup Maven'
+        uses: s4u/setup-maven-action@v1.18.0
+        with:
+          java-version: 21
+          java-distribution: 'liberica'
+
+      - name: 'Generate SBOM'
+        run: |
+          mvn -e -B -no-transfer-progress cyclonedx:makeAggregateBom -Drevision="${{ inputs.revision }}"
 
       - name: 'Upload SBOM'
         run: |
-          echo "TODO ..."
+          find . -name \*.json
+          find . -name \*.xml
