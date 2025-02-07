@@ -53,13 +53,11 @@ jobs:
 
       - name: 'Check Quality Gate'
         if: github.actor != 'dependabot[bot]'
-        run: |
-          echo "TODO ..."
-      #  uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
-      #  with:
-      #    scanMetadataReportFile: 'target/sonar/report-task.txt'
-      #  env:
-      #    ...
+        uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
+        with:
+          scanMetadataReportFile: 'target/sonar/report-task.txt'
+        env:
+          SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
 
       - name: 'Build Image'
         id: 'build-image'

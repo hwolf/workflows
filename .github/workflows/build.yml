@@ -9,8 +9,6 @@ on:
       service-folder:
         type: string
         default: '.'
-    secrets:
-      SONAR_TOKEN:
 
 jobs:
   build:
@@ -18,8 +16,7 @@ jobs:
     uses: hwolf/workflows/.github/workflows/build-and-test.yml@main
     with:
       publish-image: ${{ inputs.environment != 'none' }}
-    secrets:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    secrets: inherit
 
   terraform:
     name: 'Validate Terraform'
