@@ -46,7 +46,7 @@ jobs:
     steps:
       - name: Timestamp
         id: ts
-        run: echo "::set-output name=ts::$(date -u +'%Y-%m-%d %H:%M:%S')"
+        run: echo "ts=$(date -u +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
       - name: 'Create/update tag'
         uses: joutvhu/create-tag@v1
         with:
