@@ -44,7 +44,7 @@ jobs:
       - name: 'Analyse with SonarCloud'
         if: github.actor != 'dependabot[bot]'
         run: |
-          mvn -e -B -no-transfer-progress sonar:sonar -Drevision="$revision" -Dsonar.qualitygate.wait=true
+          mvn -e -B -no-transfer-progress help:system sonar:sonar -Drevision="$revision" -Dsonar.qualitygate.wait=true
           env:
             SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
             SONAR_HOST_URL: "https://sonarcloud.io"
