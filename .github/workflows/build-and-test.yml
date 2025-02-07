@@ -43,6 +43,10 @@ jobs:
         #env:
         # ...
 
+      - name: Dump
+        run: |
+          mvn -e -B -no-transfer-progress help:system
+
       - name: 'Analyse with SonarCloud'
         if: github.actor != 'dependabot[bot]'
         run: |
