@@ -26,7 +26,7 @@ jobs:
           terraform_version: 1.8.2
           terraform_wrapper: false
 
-      - name: 'Deploy ${{ inputs.revision }} to ${{ inputs.environment }}'
+      - name: 'Deploy image ${{ inputs.revision }} to ${{ inputs.environment }}'
         run: |
           echo "TODO ..."
           echo "ENV_1=${{ vars.ENV_1 }}"

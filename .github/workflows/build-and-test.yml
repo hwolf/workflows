@@ -37,11 +37,11 @@ jobs:
           #settings-repositories: '...'
           #checkout-ref: ${{ steps.pr-id.outputs.head_ref }}
 
-      - name: 'Build & Test'
+      - name: 'Build and test'
         run: |
           mvn -e -B -no-transfer-progress clean jacoco:prepare-agent package jacoco:report -Drevision="$revision"
 
-      - name: 'Analyse with SonarCloud'
+      - name: 'SonarCloud'
         if: github.actor != 'dependabot[bot]'
         run: |
           mvn -e -B -no-transfer-progress help:system sonar:sonar -Drevision="$revision" -Dsonar.qualitygate.wait=true
@@ -49,7 +49,7 @@ jobs:
           SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
           SONAR_HOST_URL: "https://sonarcloud.io"
 
-      - name: 'Build Image'
+      - name: 'Build image'
         working-directory: ${{ inputs.service-folder }}
         run: |
           groupId="$(mvn help:evaluate -Dexpression=project.groupId -q -DforceStdout)"
@@ -65,12 +65,12 @@ jobs:
         run: |
           echo "Login ..."
 
-      - name: 'Publish Image'
+      - name: 'Publish image'
         if: inputs.publish-image
         run: |
           echo "Publish image $imageName"
 
-      - name: 'Publish Test Results'
+      - name: 'Publish test results'
         if: failure()
         uses: EnricoMi/publish-unit-test-result-action@v2
         with:
@@ -79,7 +79,7 @@ jobs:
       #- name: 'Update Dependency Graph'
       #  uses: advanced-security/maven-dependency-submission-action@v4
 
-      - name: Revision
+      - name: 'Revision'
         id: revision
         run: |
           echo "revision=$revision" >> $GITHUB_OUTPUT
