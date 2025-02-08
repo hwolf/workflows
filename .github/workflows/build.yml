@@ -29,7 +29,7 @@ jobs:
           #settings-repositories: '...'
 
       - name: 'Calculate revision'
-        uses: ./.github/actions/revision
+        uses: hwolf/workflows/.github/actions/revision
 
       - name: 'Build and test'
         run: |
