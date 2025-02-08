@@ -29,7 +29,7 @@ jobs:
             revision=$revision-${{ github.sha }}
           fi
           revision=$revision-${{ github.run_number }}
-          echo "revision=$(date +%Y%m%d)-${{ github.run_number }}" >> $GITHUB_OUTPUT
+          echo "revision=$revision" >> $GITHUB_ENV
 
       - name: 'Setup Maven'
         uses: s4u/setup-maven-action@v1.18.0
