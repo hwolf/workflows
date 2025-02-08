@@ -22,7 +22,7 @@ jobs:
       revision: ${{ steps.revision.outputs.revision }}
     steps:
       - name: 'Calculate revision'
-        uses: .github/actions/revision
+        uses: /.github/actions/revision
 
       - name: 'Setup Maven'
         uses: s4u/setup-maven-action@v1.18.0
