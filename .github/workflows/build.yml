@@ -25,7 +25,7 @@ jobs:
         run: |
           revision=$(date +%Y%m%d)
           if ${{ github.ref != 'refs/heads/main' }}
-          the=
+          then
             sha=${{ github.sha }}
             revision="$revision-${sha::16}"
           fi
