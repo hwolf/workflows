@@ -21,25 +21,19 @@ jobs:
     outputs:
       revision: ${{ steps.revision.outputs.revision }}
     steps:
-      - name: 'Calculate revision (main)'
-        if: github.ref == 'refs/heads/main'
-        run: |
-          echo "revision=$(date +%Y%m%d)-${{ github.run_number }}" >> $GITHUB_ENV
-      - name: 'Calculate revision (branch)'
-        if: github.ref != 'refs/heads/main'
-        run: |
-          echo "revision=$(date +%Y%m%d)-${{ github.sha }}-${{ github.run_number }}" >> $GITHUB_ENV
+      - name: 'Calculate revision'
+        uses: actions/revision
+
       - name: 'Setup Maven'
         uses: s4u/setup-maven-action@v1.18.0
         with:
           java-version: 21
           java-distribution: 'liberica'
           #settings-repositories: '...'
-          #checkout-ref: ${{ steps.pr-id.outputs.head_ref }}
 
       - name: 'Build and test'
         run: |
-          mvn -e -B -no-transfer-progress clean jacoco:prepare-agent package jacoco:report -Drevision="$revision"
+          mvn -e -B -no-transfer-progress clean jacoco:prepare-agent verify jacoco:report -Drevision="$revision"
 
       - name: 'SonarCloud'
         if: github.actor != 'dependabot[bot]'

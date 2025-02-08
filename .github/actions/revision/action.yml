@@ -1,0 +1,19 @@
+name: 'Calculate revision'
+
+outputs:
+  revision:
+    value: ${{ steps.rev.outputs.revision }}
+
+runs:
+  shell: bash
+  using: "composite"
+  steps:
+    - id: rev
+      run: |
+        revision=$(date +%Y%m%d)
+        if ${{ github.ref != 'refs/heads/main' }}
+        then
+          revision=$revision-${{ github.sha }}
+        fi
+        revision=$revision-${{ github.run_number }}
+        echo "revision=$(date +%Y%m%d)-${{ github.run_number }}" >> $GITHUB_OUTPUT

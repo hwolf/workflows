@@ -12,7 +12,7 @@ on:
 jobs:
   build:
     name: 'Build'
-    uses: hwolf/workflows/.github/workflows/build-and-test.yml@main
+    uses: hwolf/workflows/.github/workflows/build.yml@main
     with:
       publish-image: ${{ inputs.environment != 'none' }}
     secrets: inherit

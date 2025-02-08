@@ -1,5 +1,4 @@
 name: 'Deploy'
-run-name: 'Deploy image ${{ inputs.revision }} to ${{ inputs.environment }}'
 
 on:
   workflow_call:
