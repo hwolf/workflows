@@ -14,6 +14,7 @@ concurrency: ${{ inputs.environment }}
 jobs:
   deploy:
     name: 'Deploy'
+    run-name: 'Deploy image ${{ inputs.revision }} to ${{ inputs.environment }}'
     environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
@@ -26,7 +27,7 @@ jobs:
           terraform_version: 1.8.2
           terraform_wrapper: false
 
-      - name: 'Deploy image ${{ inputs.revision }} to ${{ inputs.environment }}'
+      - name: 'Deploy image'
         run: |
           echo "TODO ..."
           echo "ENV_1=${{ vars.ENV_1 }}"
