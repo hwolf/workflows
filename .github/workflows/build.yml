@@ -14,6 +14,9 @@ on:
       revision:
         value: ${{ jobs.build.outputs.revision }}
 
+env:
+  DOCKER_REGISTRY: xxxx.azurecr.io
+
 jobs:
   build:
     name: 'Build and Test'
@@ -23,21 +26,20 @@ jobs:
     steps:
       - name: 'Calculate revision'
         run: |
-          revision=$(date +%Y%m%d)
+          revision=$(date +%Y%m%d)-${{ github.run_number }}
           if ${{ github.ref != 'refs/heads/main' }}
-          the=
+          then
             sha=${{ github.sha }}
             revision="$revision-${sha::16}"
           fi
-          revision=$revision-${{ github.run_number }}
           echo "revision=$revision" >> $GITHUB_ENV
 
-      - name: 'Setup Maven'
-        uses: s4u/setup-maven-action@v1.18.0
-        with:
-          java-version: 21
-          java-distribution: 'liberica'
-          #settings-repositories: '...'
+      - name: 'Determine image name'
+        run: |
+          groupId="$(mvn help:evaluate -Dexpression=project.groupId -q -DforceStdout)"
+          artifactId="$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)"
+          imageName="$DOCKER_REGISTRY/${groupId/.//}/$artifactId:$revision"
+          echo "imageName=$imageName" >> $GITHUB_ENV
 
       - name: 'Build and test'
         run: |
@@ -54,11 +56,6 @@ jobs:
       - name: 'Build image'
         working-directory: ${{ inputs.service-folder }}
         run: |
-          groupId="$(mvn help:evaluate -Dexpression=project.groupId -q -DforceStdout)"
-          artifactId="$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)"
-          imageName="xxxx.azurecr.io/${groupId/.//}/$artifactId:$revision"
-          echo "imageName=$imageName" >> $GITHUB_ENV
-
           mvn -e -B -no-transfer-progress spring-boot:build-image-no-fork -Drevision="$revision" \
               -Ddocker.imageName="$imageName"
 
