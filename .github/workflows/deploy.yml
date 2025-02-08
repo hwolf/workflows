@@ -1,4 +1,6 @@
 name: 'Deploy'
+run-name: 'Deploy image ${{ inputs.revision }} to ${{ inputs.environment }}'
+
 on:
   workflow_call:
     inputs:
@@ -14,7 +16,6 @@ concurrency: deploy-${{ inputs.environment }}
 jobs:
   deploy:
     name: 'Deploy'
-    run-name: 'Deploy image ${{ inputs.revision }} to ${{ inputs.environment }}'
     environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
