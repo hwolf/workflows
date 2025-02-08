@@ -27,7 +27,7 @@ jobs:
           if ${{ github.ref != 'refs/heads/main' }}
           the=
             sha=${{ github.sha }}
-            revision=$revision-${sha:0:16}
+            revision="$revision-${sha::16}"
           fi
           revision=$revision-${{ github.run_number }}
           echo "revision=$revision" >> $GITHUB_ENV
