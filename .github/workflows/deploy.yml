@@ -9,7 +9,7 @@ on:
         type: string
         required: true
 
-concurrency: ${{ inputs.environment }}
+concurrency: deploy-${{ inputs.environment }}
 
 jobs:
   deploy:
