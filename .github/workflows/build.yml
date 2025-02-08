@@ -21,15 +21,22 @@ jobs:
     outputs:
       revision: ${{ steps.revision.outputs.revision }}
     steps:
+      - name: 'Calculate revision'
+        run: |
+          revision=$(date +%Y%m%d)
+          if ${{ github.ref != 'refs/heads/main' }}
+          then
+            revision=$revision-${{ github.sha }}
+          fi
+          revision=$revision-${{ github.run_number }}
+          echo "revision=$(date +%Y%m%d)-${{ github.run_number }}" >> $GITHUB_OUTPUT
+
       - name: 'Setup Maven'
         uses: s4u/setup-maven-action@v1.18.0
         with:
           java-version: 21
           java-distribution: 'liberica'
           #settings-repositories: '...'
-
-      - name: 'Calculate revision'
-        uses: hwolf/workflows/.github/actions/revision
 
       - name: 'Build and test'
         run: |
