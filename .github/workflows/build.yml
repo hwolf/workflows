@@ -24,11 +24,14 @@ jobs:
       - name: 'Calculate revision'
         run: |
           revision=$(date +%Y%m%d)
+          echo $revision
           if ${{ github.ref != 'refs/heads/main' }}
           then
             revision=$revision-${{ github.sha }}
+          echo $revision
           fi
           revision=$revision-${{ github.run_number }}
+          echo $revision
           echo "revision=$revision" >> $GITHUB_ENV
 
       - name: 'Setup Maven'
