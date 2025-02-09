@@ -1,0 +1,19 @@
+name: Build
+on:
+  workflow_call:
+    inputs:
+      service-folder:
+        type: string
+        default: '.'
+
+jobs:
+  build:
+    name: 'Build'
+    uses: hwolf/workflows/.github/workflows/build.yml@main
+    with:
+      publish-image: ${{ inputs.environment != 'none' }}
+    secrets: inherit
+
+  terraform:
+    name: 'Validate Terraform'
+    uses: hwolf/workflows/.github/workflows/verify-terraform.yml@main
