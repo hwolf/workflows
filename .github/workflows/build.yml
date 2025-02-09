@@ -24,6 +24,13 @@ jobs:
     outputs:
       revision: ${{ steps.revision.outputs.revision }}
     steps:
+      - name: 'Setup Maven'
+        uses: s4u/setup-maven-action@v1.18.0
+        with:
+          java-version: 21
+          java-distribution: 'liberica'
+          #settings-repositories: '...'
+
       - name: 'Calculate revision'
         run: |
           revision=$(date +%Y%m%d)-${{ github.run_number }}
