@@ -27,10 +27,9 @@ jobs:
       - name: 'Calculate revision'
         run: |
           revision=$(date +%Y%m%d)-${{ github.run_number }}
-          if ${{ github.ref != 'refs/heads/main' }}
+          if ${{ github.ref_name != 'main' }}
           then
-            sha=${{ github.sha }}
-            revision="$revision-${sha::16}"
+            revision="$revision-${GITHUB_SHA::16}"
           fi
           echo "revision=$revision" >> $GITHUB_ENV
 
