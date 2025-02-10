@@ -10,16 +10,11 @@ on:
         default: '.'
     secrets:
       SONAR_TOKEN:
-#    outputs:
-#      revision:
-#        value: ${{ jobs.build.outputs.revision }}
 
 jobs:
   build:
     name: 'Build and Test'
-    runs-on: ubuntu-latest
-#    outputs:
-#      revision: ${{ steps.revision.outputs.revision }}
+    runs-on: ${{ env.runner || "ubuntu-latest" }}
     steps:
       - name: 'Setup Maven'
         uses: s4u/setup-maven-action@v1.18.0
@@ -73,8 +68,3 @@ jobs:
 
       #- name: 'Update Dependency Graph'
       #  uses: advanced-security/maven-dependency-submission-action@v4
-
-#      - name: 'Revision'
-#        id: revision
-#        run: |
-#          echo "revision=$revision" >> $GITHUB_OUTPUT
