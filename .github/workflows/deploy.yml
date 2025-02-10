@@ -6,7 +6,7 @@ on:
       environment:
         type: string
         required: true
-      revision:
+      image-tag:
         type: string
         required: true
 
@@ -18,8 +18,8 @@ jobs:
     environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
-      - name: 'Checkout'
-        uses: actions/checkout@v4
+#      - name: 'Checkout'
+#        uses: actions/checkout@v4
 
       - name: 'Setup Terraform'
         uses: hashicorp/setup-terraform@v3
@@ -34,22 +34,22 @@ jobs:
           echo "SEC_1=${{ secrets.SEC_1 }}"
           echo "SEC_2=${{ secrets.SEC_2 }}"
 
-  tagging:
-    name: Tagging
-    permissions: write-all
-    if: inputs.environment == 'qa' || inputs.environment == 'prd'
-    runs-on: ubuntu-latest
-    needs:
-      - deploy
-    steps:
-      - name: Timestamp
-        id: ts
-        run: echo "ts=$(date -u +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
-      - name: 'Create/update tag'
-        uses: joutvhu/create-tag@v1
-        with:
-          tag_name: "${{ inputs.environment }}-deployed-${{ inputs.revision }}"
-          message: "Image ${{ inputs.revision }} deployed to ${{ inputs.environment }} at $ts"
-          on_tag_exists: update
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#  tagging:
+#    name: Tagging
+#    permissions: write-all
+#    if: inputs.environment == 'qa' || inputs.environment == 'prd'
+#    runs-on: ubuntu-latest
+#    needs:
+#      - deploy
+#    steps:
+#      - name: Timestamp
+#        id: ts
+#        run: echo "ts=$(date -u +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
+#      - name: 'Create/update tag'
+#        uses: joutvhu/create-tag@v1
+#        with:
+#          tag_name: "${{ inputs.environment }}-deployed-${{ inputs.revision }}"
+#          message: "Image ${{ inputs.revision }} deployed to ${{ inputs.environment }} at $ts"
+#          on_tag_exists: update
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

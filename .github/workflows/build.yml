@@ -10,9 +10,9 @@ on:
         default: '.'
     secrets:
       SONAR_TOKEN:
-    outputs:
-      revision:
-        value: ${{ jobs.build.outputs.revision }}
+#    outputs:
+#      revision:
+#        value: ${{ jobs.build.outputs.revision }}
 
 jobs:
   build:
@@ -52,7 +52,8 @@ jobs:
       - name: 'Build image'
         working-directory: ${{ inputs.service-folder }}
         run: |
-          mvn -e -B -no-transfer-progress spring-boot:build-image-no-fork -Drevision="$revision"
+          mvn -e -B -no-transfer-progress spring-boot:build-image-no-fork -Drevision="$revision" \
+              -Ddocker.imageName="xxxx.azurecr.io/xxx/test/xx-abc-test:$GITHUB_SHA"
 
       - name: 'Login ...'
         if: inputs.publish-image
@@ -73,7 +74,7 @@ jobs:
       #- name: 'Update Dependency Graph'
       #  uses: advanced-security/maven-dependency-submission-action@v4
 
-      - name: 'Revision'
-        id: revision
-        run: |
-          echo "revision=$revision" >> $GITHUB_OUTPUT
+#      - name: 'Revision'
+#        id: revision
+#        run: |
+#          echo "revision=$revision" >> $GITHUB_OUTPUT
