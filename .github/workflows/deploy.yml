@@ -53,8 +53,7 @@ jobs:
       - name: 'Create/update tag'
         uses: joutvhu/create-tag@v1
         with:
-          tag_name: "${{ inputs.environment }}-deployed-${{ inputs.revision }}"
-          message: "Image ${{ inputs.revision }} deployed to ${{ inputs.environment }} at $ts"
+          tag_name: "${{ inputs.environment }}-deployed-$ts"
           on_tag_exists: update
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
