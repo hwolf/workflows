@@ -39,7 +39,7 @@ jobs:
 
       - name: 'Determine image name'
         run: |
-          imageName="$(mvn help:evaluate -Dexpression=docker.imageName -q -DforceStdout)"
+          imageName="$(mvn help:evaluate -Dexpression=docker.imageName -q -DforceStdout -Drevision="$revision)"
           echo "imageName=$imageName" >> $GITHUB_ENV
 
       - name: 'Build and test'
@@ -57,8 +57,7 @@ jobs:
       - name: 'Build image'
         working-directory: ${{ inputs.service-folder }}
         run: |
-          mvn -e -B -no-transfer-progress spring-boot:build-image-no-fork -Drevision="$revision" \
-              -Ddocker.imageName="$imageName"
+          mvn -e -B -no-transfer-progress spring-boot:build-image-no-fork -Drevision="$revision"
 
       - name: 'Login ...'
         if: inputs.publish-image
