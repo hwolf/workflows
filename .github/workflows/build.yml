@@ -18,8 +18,8 @@ jobs:
   build:
     name: 'Build and Test'
     runs-on: ubuntu-latest
-    outputs:
-      revision: ${{ steps.revision.outputs.revision }}
+#    outputs:
+#      revision: ${{ steps.revision.outputs.revision }}
     steps:
       - name: 'Setup Maven'
         uses: s4u/setup-maven-action@v1.18.0
