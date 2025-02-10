@@ -37,11 +37,6 @@ jobs:
           fi
           echo "revision=$revision" >> $GITHUB_ENV
 
-      - name: 'Determine image name'
-        run: |
-          imageName="$(mvn help:evaluate -Dexpression=docker.imageName -q -DforceStdout -Drevision=$revision)"
-          echo "imageName=$imageName" >> $GITHUB_ENV
-
       - name: 'Build and test'
         run: |
           mvn -e -B -no-transfer-progress clean jacoco:prepare-agent verify jacoco:report -Drevision="$revision"
@@ -67,7 +62,7 @@ jobs:
       - name: 'Publish image'
         if: inputs.publish-image
         run: |
-          echo "Publish image $imageName"
+          echo "Publish image ..."
 
       - name: 'Publish test results'
         if: failure()
