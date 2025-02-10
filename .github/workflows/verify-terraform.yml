@@ -1,11 +1,15 @@
 name: 'Verify Terraform'
 on:
   workflow_call:
+    inputs:
+      runner:
+        type: string
+        default: ubuntu-latest
 
 jobs:
   verify-terraform:
     name: 'Verify Terraform'
-    runs-on: ${{ env.runner || "ubuntu-latest" }}
+    runs-on: ${{ inputs.runner }}
     steps:
       - name: 'Checkout'
         uses: actions/checkout@v4

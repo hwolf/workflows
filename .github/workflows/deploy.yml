@@ -6,6 +6,9 @@ on:
       environment:
         type: string
         required: true
+      runner:
+        type: string
+        default: ubuntu-latest
 
 concurrency: deploy-${{ inputs.environment }}
 
@@ -13,7 +16,7 @@ jobs:
   deploy:
     name: 'Deploy'
     environment: ${{ inputs.environment }}
-    runs-on: ${{ env.runner || "ubuntu-latest" }}
+    runs-on: ${{ inputs.runner }}
     steps:
       - name: 'Checkout'
         uses: actions/checkout@v4

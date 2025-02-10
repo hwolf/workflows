@@ -8,13 +8,16 @@ on:
       service-folder:
         type: string
         default: '.'
+      runner:
+        type: string
+        default: ubuntu-latest
     secrets:
       SONAR_TOKEN:
 
 jobs:
   build:
     name: 'Build and Test'
-    runs-on: ${{ env.runner || "ubuntu-latest" }}
+    runs-on: ${{ inputs.runner }}
     steps:
       - name: 'Setup Maven'
         uses: s4u/setup-maven-action@v1.18.0
