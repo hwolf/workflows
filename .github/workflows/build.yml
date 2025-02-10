@@ -39,7 +39,7 @@ jobs:
 
       - name: 'Determine image name'
         run: |
-          imageName="$(mvn help:evaluate -Dexpression=project.imageName -q -DforceStdout)"
+          imageName="$(mvn help:evaluate -Dexpression=docker.imageName -q -DforceStdout)"
           echo "imageName=$imageName" >> $GITHUB_ENV
 
       - name: 'Build and test'
