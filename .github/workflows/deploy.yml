@@ -26,7 +26,7 @@ jobs:
           terraform_version: 1.8.2
           terraform_wrapper: false
 
-      - name: 'Deploy image $revision'
+      - name: 'Deploy image ${{ github.sha }}'
         run: |
           echo "TODO ..."
           echo "ENV_1=${{ vars.ENV_1 }}"
