@@ -14,9 +14,6 @@ on:
       revision:
         value: ${{ jobs.build.outputs.revision }}
 
-env:
-  DOCKER_REGISTRY: xxxx.azurecr.io
-
 jobs:
   build:
     name: 'Build and Test'
@@ -42,9 +39,7 @@ jobs:
 
       - name: 'Determine image name'
         run: |
-          groupId="$(mvn help:evaluate -Dexpression=project.groupId -q -DforceStdout)"
-          artifactId="$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)"
-          imageName="$DOCKER_REGISTRY/${groupId/.//}/$artifactId:$revision"
+          imageName="$(mvn help:evaluate -Dexpression=project.imageName -q -DforceStdout)"
           echo "imageName=$imageName" >> $GITHUB_ENV
 
       - name: 'Build and test'
