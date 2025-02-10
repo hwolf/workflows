@@ -44,11 +44,12 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}"
+          ref: "${{ github.sha }}"
 
       - name: Timestamp
         id: ts
         run: echo "ts=$(date -u +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
+
       - name: 'Create/update tag'
         uses: joutvhu/create-tag@v1
         with:
