@@ -55,13 +55,18 @@ jobs:
           image=$(mvn help:evaluate -Dexpression=docker.imageName -q -DforceStdout -Drevision="$revision")
           image2=${image%:*}:$GITHUB_SHA
           docker image tag $image $image2
-          echo "imageName=$image2"
+          echo "imageName=$image2" >> $GITHUB_ENV
 
-      - name: 'Publish image'
-        if: inputs.publish-image
-        uses: hwolf/workflows/publish-image@main
-        with:
-          image-name: ${{ steps.build.outputs.imageName }}
+      - name: 'Login ...'
+        shell: bash
+        run: |
+          echo "Login ..."
+
+      - name: 'Publish image ${{ env.imageName }}'
+        shell: bash
+        run: |
+          echo "Login ..."
+          echo "Publish image ..."
 
       - name: 'Publish test results'
         if: failure()
