@@ -50,15 +50,10 @@ jobs:
       - name: 'Build image'
         working-directory: ${{ inputs.service-folder }}
         run: |
-          mvn -e -B -no-transfer-progress spring-boot:build-image-no-fork -Drevision="$revision"
-
-      - name: 'Fix image names'
-        working-directory: ${{ inputs.service-folder }}
-        run: |
-          image=$(mvn help:evaluate -Dexpression=docker.imageName -q -DforceStdout -Drevision="$revision")
-          image2=${image%:*}:$GITHUB_SHA
-          docker image tag $image $image2
-          echo "imageName=$image2" >> $GITHUB_ENV
+          imageName=$(mvn help:evaluate -Dexpression=docker.imageName -q -DforceStdout -Drevision="$GITHUB_SHA")
+          mvn -e -B -no-transfer-progress spring-boot:build-image-no-fork -Drevision="$revision" \
+              -Ddocker.imageName=$imageName
+          echo "imageName=$imageName" >> $GITHUB_ENV
 
       - name: Login to Container registry
         uses: docker/login-action@v3
