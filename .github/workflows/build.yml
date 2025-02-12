@@ -60,7 +60,19 @@ jobs:
         shell: bash
         run: |
           echo "Login ..."
-          echo "Publish image ${{ env.imageName }} ..."
+          echo "Publish image  ..."
+
+      - name: Login to Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name : Publish image to Container registry
+        run: |
+          docker push "${{ env.imageName }}"
+
 
       - name: 'Publish test results'
         if: failure()
