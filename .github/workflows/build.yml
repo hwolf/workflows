@@ -48,7 +48,6 @@ jobs:
           SONAR_HOST_URL: "https://sonarcloud.io"
 
       - name: 'Build image'
-        id: build
         working-directory: ${{ inputs.service-folder }}
         run: |
           mvn -e -B -no-transfer-progress spring-boot:build-image-no-fork -Drevision="$revision"
@@ -57,16 +56,11 @@ jobs:
           docker image tag $image $image2
           echo "imageName=$image2" >> $GITHUB_ENV
 
-      - name: 'Login ...'
+      - name: 'Publish image'
         shell: bash
         run: |
           echo "Login ..."
-
-      - name: 'Publish image ${{ env.imageName }}'
-        shell: bash
-        run: |
-          echo "Login ..."
-          echo "Publish image ..."
+          echo "Publish image ${{ env.imageName }} ..."
 
       - name: 'Publish test results'
         if: failure()
