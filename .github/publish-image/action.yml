@@ -1,0 +1,26 @@
+name: Publish image
+
+inputs:
+  image-name:
+    required: true
+    description: Image name
+
+runs:
+  using: "composite"
+  steps:
+    - name: Fix image name
+      shell: bash
+      run: |
+        name=${{ inputs.image-name }}
+        name="${name%:*}:${{ github.sha }}"
+        docker image tag ${{ inputs.image-name }} $name
+
+    - name: 'Login ...'
+      shell: bash
+      run: |
+        echo "Login ..."
+
+    - name: 'Publish image'
+      shell: bash
+      run: |
+        echo "Publish image ..."

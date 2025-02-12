@@ -48,20 +48,20 @@ jobs:
           SONAR_HOST_URL: "https://sonarcloud.io"
 
       - name: 'Build image'
+        id: build
         working-directory: ${{ inputs.service-folder }}
         run: |
-          mvn -e -B -no-transfer-progress spring-boot:build-image-no-fork -Drevision="$revision" \
-              -Ddocker.imageName="xxxx.azurecr.io/xxx/test/xx-abc-test:$GITHUB_SHA"
-
-      - name: 'Login ...'
-        if: inputs.publish-image
-        run: |
-          echo "Login ..."
+          mvn -e -B -no-transfer-progress spring-boot:build-image-no-fork -Drevision="$revision"
+          image=$(mvn help:evaluate -Dexpression=docker.imageName -q -DforceStdout -Drevision="$revision")
+          image2=${image%:*}:$GITHUB_SHA
+          docker image tag $image $image2
+          echo "imageName=$image2"
 
       - name: 'Publish image'
         if: inputs.publish-image
-        run: |
-          echo "Publish image ..."
+        uses: publish-image
+        with:
+          image-name: ${{ steps.build.outputs.imageName }}
 
       - name: 'Publish test results'
         if: failure()
