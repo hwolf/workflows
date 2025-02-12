@@ -59,7 +59,7 @@ jobs:
 
       - name: 'Publish image'
         if: inputs.publish-image
-        uses: publish-image
+        uses: hwolf/.github/workflows/publish-image@main
         with:
           image-name: ${{ steps.build.outputs.imageName }}
 
