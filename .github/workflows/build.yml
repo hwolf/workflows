@@ -2,12 +2,6 @@ name: 'Build and Test'
 on:
   workflow_call:
     inputs:
-      publish-image:
-        type: boolean
-        default: false
-      service-folder:
-        type: string
-        default: '.'
       runner:
         type: string
         default: ubuntu-latest
@@ -26,52 +20,14 @@ jobs:
           java-distribution: 'liberica'
           #settings-repositories: '...'
 
-      - name: 'Calculate revision'
-        run: |
-          revision=$(date +%Y%m%d)-${{ github.run_number }}
-          if ${{ github.ref_name != 'main' }}
-          then
-            revision="$revision-${GITHUB_SHA::16}"
-          fi
-          echo "revision=$revision" >> $GITHUB_ENV
-
       - name: 'Build and test'
         run: |
-          mvn -e -B -no-transfer-progress clean jacoco:prepare-agent verify jacoco:report -Drevision="$revision"
+          mvn -e -B -no-transfer-progress clean jacoco:prepare-agent verify jacoco:report
 
       - name: 'SonarCloud'
         if: github.actor != 'dependabot[bot]'
         run: |
-          mvn -e -B -no-transfer-progress sonar:sonar -Drevision="$revision" -Dsonar.qualitygate.wait=true
+          mvn -e -B -no-transfer-progress sonar:sonar -Dsonar.qualitygate.wait=true
         env:
           SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
           SONAR_HOST_URL: "https://sonarcloud.io"
-
-      - name: 'Build image'
-        working-directory: ${{ inputs.service-folder }}
-        run: |
-          imageName=$(mvn help:evaluate -Dexpression=docker.imageName -q -DforceStdout -Drevision="$GITHUB_SHA")
-          mvn -e -B -no-transfer-progress spring-boot:build-image-no-fork -Drevision="$revision" \
-              -Ddocker.imageName=$imageName
-          echo "imageName=$imageName" >> $GITHUB_ENV
-
-      - name: Login to Container registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name : Publish image to Container registry
-        run: |
-          docker push "${{ env.imageName }}"
-
-
-      - name: 'Publish test results'
-        if: failure()
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        with:
-          files: '**/target/surefire-reports/**/*.xml'
-
-      #- name: 'Update Dependency Graph'
-      #  uses: advanced-security/maven-dependency-submission-action@v4
