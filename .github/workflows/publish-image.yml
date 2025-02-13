@@ -24,7 +24,7 @@ jobs:
 
       - name: 'Build image'
         run: |
-          pack build $REGISTRY/${{ github.actor }}/xx/test/xx-test-service:${{ githb.sha }} \
+          pack build $REGISTRY/${{ github.actor }}/xx/test/xx-test-service:${{ github.sha }} \
               --builder $BUILDER \
               --run-image $RUN_IMAGE \
               --buildpack paketo-buildpacks/java-azure \
