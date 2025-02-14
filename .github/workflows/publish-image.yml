@@ -39,7 +39,7 @@ jobs:
       - name: 'Build image'
         run: |
           pack build ${{ inputs.imageName }}:${{ github.sha }} \
-              --publish true \
+              --publish \
               --builder $BUILDER \
               --run-image $RUN_IMAGE \
               --buildpack paketo-buildpacks/java-azure \
