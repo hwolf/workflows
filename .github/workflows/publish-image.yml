@@ -2,15 +2,16 @@ name: 'Build and publish image'
 on:
   workflow_call:
     inputs:
+      imageName:
+        type: string
       runner:
         type: string
         default: ubuntu-latest
 
 env:
-  REGISTRY: ghcr.io
   BUILDER: paketobuildpacks/builder-jammy-java-tiny:@sha256:a84b2563e67c4441bd60350a7a0abf90e85df85cd8a91d4e4bdbded62b783ec9
   RUN_IMAGE: paketobuildpacks/run-jammy-tiny@sha256:0c5ac79d549c4b077a7d857631f817f8b573f5da2c109a51f320ee584d44d3f2
-  IMAGE_NAME: ghcr.io/${{ github.actor }}/xx/test/xx-test-service:${{ github.sha }}
+  imageName: $IMAGE_NAME:${{ github.sha }}
 
 jobs:
   publish:
@@ -23,22 +24,19 @@ jobs:
       - name: 'Setup buildpacks'
         uses: buildpacks/github-actions/setup-pack@v5.1.0
 
+      - name: Login to Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.imageName }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: 'Build image'
         run: |
           pack build ${{ env.IMAGE_NAME }} \
+              --publish true \
               --builder $BUILDER \
               --run-image $RUN_IMAGE \
               --buildpack paketo-buildpacks/java-azure \
               --env BP_JVM_VERSION=21 \
               --env BP_JVM_JLINK_ENABLED=true
-
-      - name: Login to Container registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name : Publish image to Container registry
-        run: |
-          docker push "${{ env.IMAGE_NAME }}"

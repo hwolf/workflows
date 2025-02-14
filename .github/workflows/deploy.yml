@@ -10,6 +10,9 @@ on:
         type: string
         default: ubuntu-latest
 
+env:
+  imageName: $IMAGE_NAME:${{ github.sha }}
+
 concurrency: deploy-${{ inputs.environment }}
 
 jobs:
@@ -29,9 +32,6 @@ jobs:
           terraform_version: 1.8.2
           terraform_wrapper: false
 
-      - name: 'Deploy image ${{ github.sha }}'
+      - name: 'Deploy image ${{ env.imageName }}'
         run: |
           echo "TODO ..."
-          echo "ENV_1=${{ vars.ENV_1 }}"
-          echo "SEC_1=${{ secrets.SEC_1 }}"
-          echo "SEC_2=${{ secrets.SEC_2 }}"
