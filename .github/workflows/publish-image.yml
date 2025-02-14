@@ -28,15 +28,11 @@ jobs:
           registry=${{ inputs.imageName }}
           registry=${registry%%/*}
           echo registry=$registry >> $GITHUB_ENV
-      - name: Dump
-        run: |
-          echo $registry
-          echo ${{ env.registry }}
 
       - name: Login to Container registry
         uses: docker/login-action@v3
         with:
-          registry: $registry
+          registry: ${{ env.registry }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
