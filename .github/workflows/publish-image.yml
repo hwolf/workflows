@@ -28,6 +28,7 @@ jobs:
         run: |
           registry=${{ inputs.imageName }}
           registry=${registry%%/*}
+          echo registry=$registry
 
       - name: Login to Container registry
         uses: docker/login-action@v3
