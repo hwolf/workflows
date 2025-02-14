@@ -3,15 +3,14 @@ name: 'Deploy'
 on:
   workflow_call:
     inputs:
+      imageName:
+        type: string
       environment:
         type: string
         required: true
       runner:
         type: string
         default: ubuntu-latest
-
-env:
-  imageName: $IMAGE_NAME:${{ github.sha }}
 
 concurrency: deploy-${{ inputs.environment }}
 
@@ -32,6 +31,6 @@ jobs:
           terraform_version: 1.8.2
           terraform_wrapper: false
 
-      - name: 'Deploy image ${{ env.imageName }}'
+      - name: 'Deploy image ${{ inputs.imageName }}:${{ github.sha }}'
         run: |
           echo "TODO ..."

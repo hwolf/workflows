@@ -11,7 +11,6 @@ on:
 env:
   BUILDER: paketobuildpacks/builder-jammy-java-tiny:@sha256:a84b2563e67c4441bd60350a7a0abf90e85df85cd8a91d4e4bdbded62b783ec9
   RUN_IMAGE: paketobuildpacks/run-jammy-tiny@sha256:0c5ac79d549c4b077a7d857631f817f8b573f5da2c109a51f320ee584d44d3f2
-  imageName: $IMAGE_NAME:${{ github.sha }}
 
 jobs:
   publish:
@@ -33,7 +32,7 @@ jobs:
 
       - name: 'Build image'
         run: |
-          pack build ${{ env.IMAGE_NAME }} \
+          pack build ${{ inputs.imageName }}:${{ github.sha }} \
               --publish true \
               --builder $BUILDER \
               --run-image $RUN_IMAGE \
