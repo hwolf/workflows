@@ -33,4 +33,4 @@ jobs:
 
       - name: 'Deploy image ${{ inputs.imageName }}:${{ github.sha }}'
         run: |
-          echo "TODO ..."
+          docker pull "${{ inputs.imageName }}:${{ github.sha }}"
