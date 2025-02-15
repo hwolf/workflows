@@ -21,17 +21,17 @@ jobs:
             let message = "Deployed at " + now.toLocaleString("de", {
               timeZone: "CET",
               timeZoneName: "shortOffset" }) + " to " + "prd"
-            await github.rest.git.createRef({
+            console.log(await github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: "refs/tags/" + tag,
               sha: context.sha
-            })
-            await github.rest.git.createTag({
+            }))
+            console.log(await github.rest.git.createTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag: tag,
               message: message,
               object: context.sha,
               type: "commit"
-            })
+            }))
