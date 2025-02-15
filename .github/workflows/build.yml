@@ -9,7 +9,7 @@ on:
       SONAR_TOKEN:
 
 permissions:
-  checks: write
+  contents: write
 
 jobs:
   build:
