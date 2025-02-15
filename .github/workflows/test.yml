@@ -28,7 +28,7 @@ jobs:
               message: message,
               object: context.sha,
               type: "commit"
-            }))
+            })
             await github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
