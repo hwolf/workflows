@@ -13,18 +13,25 @@ jobs:
       - uses: actions/github-script@v7
         with:
           script: |
-            let tag = "test-1"
+            let now = new Date()
+            let tag = "prd-" + now.toLocaleString("sv")
+                .replaceAll("-", "")
+                .replaceAll(":", "")
+                .replaceAll(" ", "-")
+            let message = "Deployed at " + date.toLocaleString("de", {
+              timeZone: "CET",
+              timeZoneName: "shortOffset" }) + " to " + "prd"
             await github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: "refs/tags/" + tag,
               sha: context.sha
-            });            
+            })
             await github.rest.git.createTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag: tag,
-              message: "...",
+              message: message,
               object: context.sha,
               type: "commit"
-            });
+            })
