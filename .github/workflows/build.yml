@@ -24,6 +24,14 @@ jobs:
         run: |
           mvn -e -B -no-transfer-progress clean jacoco:prepare-agent verify jacoco:report
 
+      - name: 'Publish test results'
+        if: success() || failure()
+        uses: actions/upload-artifact@v4  # upload test results
+        with:
+          #name: test-results
+          path: '**/target/surefire-reports/**/*.xml'
+          reporter: java-junit
+
       - name: 'SonarCloud'
         if: github.actor != 'dependabot[bot]'
         run: |
@@ -31,9 +39,3 @@ jobs:
         env:
           SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
           SONAR_HOST_URL: "https://sonarcloud.io"
-
-      - name: 'Publish test results'
-        if: success() || failure()
-        uses: r7kamura/report-test-results@v0
-        with:
-          path: '**/target/surefire-reports/**/*.xml'
