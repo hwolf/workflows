@@ -18,6 +18,7 @@ jobs:
         with:
           java-version: 21
           java-distribution: 'liberica'
+          checkout-fetch-depth: 0
           #settings-repositories: '...'
 
       - name: 'Build and test'
