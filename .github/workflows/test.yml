@@ -11,11 +11,12 @@ jobs:
         with:
           script: |
             console.log("XXX", context);
-            octokit.rest.git.createTag({
+            console.log("XXX", octokit);
+            /*octokit.rest.git.createTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag: "Test-1",
               message: "...",
               object: context.sha,
               type: "commit"
-            });
+            });*/
