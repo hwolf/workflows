@@ -32,7 +32,6 @@ jobs:
           name: 'Test Results'
           path: '**/target/surefire-reports/**/*.xml'
           reporter: java-junit
-          list-suites: only-failed
           list-tests: only-failed
 
       - name: 'SonarCloud'
