@@ -35,7 +35,17 @@ jobs:
       - name: 'SonarCloud'
         if: github.actor != 'dependabot[bot]'
         run: |
-          mvn -e -B -no-transfer-progress sonar:sonar -Dsonar.qualitygate.wait=true
+          mvn -e -B -no-transfer-progress sonar:sonar
+        env:
+          SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
+          SONAR_HOST_URL: "https://sonarcloud.io"
+
+      - name: SonarCloud Quality Gate check
+        if: github.actor != 'dependabot[bot]'
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        with:
+          scanMetadataReportFile: target/sonar/report-task.txt
+          pollingTimeoutSec: 600
         env:
           SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
           SONAR_HOST_URL: "https://sonarcloud.io"
