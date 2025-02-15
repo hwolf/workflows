@@ -11,10 +11,10 @@ jobs:
         with:
           script: |
             octokit.rest.git.createTag({
-              owner: ${github.owner},
-              repo: ${github.repo},
+              owner: `${github.owner}`,
+              repo: `${github.repo}`,
               tag: "Test-1",
               message: "...",
-              object: ${github.sha},
-              type: 'commit'
+              object: `${github.sha}`,
+              type: "commit"
             })
