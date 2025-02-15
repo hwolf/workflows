@@ -26,9 +26,9 @@ jobs:
 
       - name: 'Publish test results'
         if: success() || failure()
-        uses: actions/upload-artifact@v4  # upload test results
+        uses: dorny/test-reporter@v1
         with:
-          #name: test-results
+          name: test-results
           path: '**/target/surefire-reports/**/*.xml'
           reporter: java-junit
 
