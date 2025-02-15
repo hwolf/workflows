@@ -31,3 +31,9 @@ jobs:
         env:
           SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
           SONAR_HOST_URL: "https://sonarcloud.io"
+
+      - name: 'Publish test results'
+        if: success() || failure()
+        uses: r7kamura/report-test-results@v0
+        with:
+          path: '**/target/surefire-reports/**/*.xml'
