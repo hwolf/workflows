@@ -11,7 +11,7 @@ jobs:
         with:
           script: |
             console.log("XXX", context);
-            console.log("XXX", octokit);
+            console.log("YYY", github);
             /*octokit.rest.git.createTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
