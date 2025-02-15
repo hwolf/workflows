@@ -10,13 +10,11 @@ jobs:
       - uses: actions/github-script@v7
         with:
           script: |
-            console.log("XXX", context);
-            console.log("YYY", github);
-            /*octokit.rest.git.createTag({
+            github.rest.git.createTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag: "Test-1",
               message: "...",
               object: context.sha,
               type: "commit"
-            });*/
+            });
