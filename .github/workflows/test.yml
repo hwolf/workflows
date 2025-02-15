@@ -21,13 +21,7 @@ jobs:
             let message = "Deployed at " + now.toLocaleString("de", {
               timeZone: "CET",
               timeZoneName: "shortOffset" }) + " to " + "prd"
-            console.log(await github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: "refs/tags/" + tag,
-              sha: context.sha
-            }))
-            console.log(await github.rest.git.createTag({
+            let response = await github.rest.git.createTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag: tag,
@@ -35,3 +29,9 @@ jobs:
               object: context.sha,
               type: "commit"
             }))
+            await github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: "refs/tags/" + tag,
+              sha: response.data.sha
+            })
