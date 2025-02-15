@@ -18,7 +18,7 @@ jobs:
                 .replaceAll("-", "")
                 .replaceAll(":", "")
                 .replaceAll(" ", "-")
-            let message = "Deployed at " + date.toLocaleString("de", {
+            let message = "Deployed at " + now.toLocaleString("de", {
               timeZone: "CET",
               timeZoneName: "shortOffset" }) + " to " + "prd"
             await github.rest.git.createRef({
