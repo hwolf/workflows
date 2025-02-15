@@ -32,7 +32,8 @@ jobs:
           name: 'Test Results'
           path: '**/target/surefire-reports/**/*.xml'
           reporter: java-junit
-          list-tests: only-failed
+          list-suites: failed
+          list-tests: failed
 
       - name: 'SonarCloud'
         if: github.actor != 'dependabot[bot]'
