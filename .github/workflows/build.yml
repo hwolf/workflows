@@ -32,21 +32,12 @@ jobs:
           name: 'Test Results'
           path: '**/target/surefire-reports/**/*.xml'
           reporter: java-junit
+          use-actions-summary: false
 
       - name: 'SonarCloud'
         if: github.actor != 'dependabot[bot]'
         run: |
-          mvn -e -B -no-transfer-progress sonar:sonar -Drevision=${{ github.ref_name }}
-        env:
-          SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
-          SONAR_HOST_URL: "https://sonarcloud.io"
-
-      - name: SonarCloud Quality Gate check
-        if: github.actor != 'dependabot[bot]'
-        uses: sonarsource/sonarqube-quality-gate-action@master
-        with:
-          scanMetadataReportFile: target/sonar/report-task.txt
-          pollingTimeoutSec: 600
+          mvn -e -B -no-transfer-progress sonar:sonar -Dsonar.qualitygate.wait=true
         env:
           SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
           SONAR_HOST_URL: "https://sonarcloud.io"
