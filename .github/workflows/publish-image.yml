@@ -24,6 +24,6 @@ jobs:
 
       - name: 'Build and publish image'
         run: |
-          mvn -e -B -no-transfer-progress build-image -DskipTests -Drevision=${{ github.sha }} \
+          mvn -e -B -no-transfer-progress spring-boot:build-image -DskipTests -Drevision=${{ github.sha }} \
               -Ddocker.publish=true -Ddocker.username=${{ github.actor }} -Ddocker.password=${{ secrets.GITHUB_TOKEN }}
 
