@@ -24,7 +24,9 @@ jobs:
 
       - name: 'Build and test'
         run: |
-          mvn -e -B -no-transfer-progress clean jacoco:prepare-agent verify jacoco:report -Drevision=${{ github.ref_name }}
+          revision=${{ github.ref_name }}
+          revision=${revision//\//-}
+          mvn -e -B -no-transfer-progress clean jacoco:prepare-agent verify jacoco:report -Drevision=$revision
 
       - name: 'Publish test results'
         if: success() || failure()
