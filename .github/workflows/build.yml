@@ -39,7 +39,7 @@ jobs:
       - name: 'SonarCloud'
         if: github.actor != 'dependabot[bot]'
         run: |
-          mvn -e -B -no-transfer-progress sonar:sonar -Dsonar.qualitygate.wait=true
+          mvn -e -B -no-transfer-progress sonar:sonar -Dsonar.qualitygate.wait=true -Dsonar.newCode.referenceBranch=main
         env:
           SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
           SONAR_HOST_URL: "https://sonarcloud.io"
