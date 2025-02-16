@@ -19,6 +19,7 @@ jobs:
           java-version: 21
           java-distribution: 'liberica'
           checkout-fetch-depth: 0
+          checkout-ref: ${{ github.sha }}
           #settings-repositories: '...'
 
       - name: 'Build and test'
