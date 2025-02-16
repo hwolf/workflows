@@ -36,7 +36,7 @@ jobs:
           docker pull "${{ inputs.imageName }}:${{ github.sha }}"
 
       - name: Tag
-        if: inputs.environment = 'prd'
+        if: inputs.environment == 'prd'
         uses: actions/github-script@v7
         with:
           script: |
