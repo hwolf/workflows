@@ -24,10 +24,7 @@ jobs:
 
       - name: 'Build and test'
         run: |
-          revision=${{ github.ref_name }}
-          revision=${revision//\//-}
-          echo "revision is $revision"
-          mvn -e -B -no-transfer-progress clean jacoco:prepare-agent verify jacoco:report -Drevision=$revision
+          mvn -e -B -no-transfer-progress clean jacoco:prepare-agent verify jacoco:report -Drevision=${{ github.sha }}
 
       - name: 'Publish test results'
         if: success() || failure()
