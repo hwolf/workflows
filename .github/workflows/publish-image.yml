@@ -24,9 +24,9 @@ jobs:
 
       - name: 'Build and publish image'
         run: |
-          builder=$(grep -e FROM builder.Dockerfile | head -n 1)
+          builder=$(grep -e FROM images/builder.Dockerfile | head -n 1)
           builder=$(builder/FROM //)
-          runImage=$(grep -e FROM runImage.Dockerfile | head -n 1)
+          runImage=$(grep -e FROM images/runImage.Dockerfile | head -n 1)
           runImage=$(runImage/FROM //)
           mvn -e -B -no-transfer-progress spring-boot:build-image -DskipTests \
               -Drevision=${{ github.sha }} \
