@@ -26,11 +26,11 @@ jobs:
         run: |
           builder=$(grep -e FROM images/builder.Dockerfile | head -n 1)
           echo "B1: $builder"
-          builder=${builder/FROM //}
+          builder=${builder/FROM /}
           echo "B2: $builder"
           runImage=$(grep -e FROM images/runImage.Dockerfile | head -n 1)
           echo "R1: $runImage"
-          runImage=${runImage/FROM //}
+          runImage=${runImage/FROM /}
           echo "R2: $runImage"
           mvn -e -B -no-transfer-progress spring-boot:build-image -DskipTests \
               -Drevision=${{ github.sha }} \
