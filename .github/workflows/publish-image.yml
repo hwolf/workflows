@@ -28,10 +28,14 @@ jobs:
           echo "B1: $builder"
           builder=${builder/FROM /}
           echo "B2: $builder"
+          mvn versions:set-property -Dproperty=image.builder -DnewVersion=$builder
+
           runImage=$(grep -e FROM images/runImage.Dockerfile | head -n 1)
           echo "R1: $runImage"
           runImage=${runImage/FROM /}
           echo "R2: $runImage"
+          mvn versions:set-property -Dproperty=image.runImage -DnewVersion=$runImage
+
           mvn -e -B -no-transfer-progress spring-boot:build-image -DskipTests \
               -Drevision=${{ github.sha }} \
               -Dimage.builder=$builder \
